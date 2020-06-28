@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Departement index{% endblock %}
+
+{% block body %}
+    <h1>Departement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>service</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for td in tdocument %}
+            <tr>
+                <td>{{ td.id }}</td>
+                <td>{{ td.description }}</td>
+                <td>{{ td.service.typeDocuments }}</td>
+               
+                <td>
+                    <a href="#">Modifier</a>
+                </td>
+                <td>
+                    <a href="{{ path('add') }}">Ajouter</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   
+{% endblock %}

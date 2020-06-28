@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Departement index{% endblock %}
+{% block body %}
+
+   
+ {{ form_start(form) }}
+{{ form_rest(form) }}
+
+<form>
+    
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.description) }}
+        </div>
+    </div>
+
+    
+    <div>
+      <button type="submit" class="btn btn-primary mb-2">Mofidier
+    </div>
+
+</div>
+</form>
+   
+{% endblock %}
+
