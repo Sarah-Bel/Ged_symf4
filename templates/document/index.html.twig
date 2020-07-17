@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {% endblock %}
+	
+   {% block stylesheets %}
+   
+   {% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success" >
+    {{ message }}
+     </div>
+    {% endfor %}
+    
+<div >
+    <table class="table table-striped">
+        <thead >
+            <tr>
+            <th >
+            <a href="{{ path('document_add') }}" class="btn btn-success">Importe un nouveau document</a>
+             </th>
+        </tr>
+            <tr>
+                
+                <th>N° document</th>
+                <th>Information</th>
+                <th>Commentaire</th>
+                <th>Document</th>
+                <th>Date Création</th>
+                <th> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for d in document %}
+    
+            <tr>
+                
+                <td>{{ d.numdocument }}</td>
+                <td>{{ d.information }}</td>
+               <td>{{ d.commentaire }}</td>
+               <td>{{ d.nomdocument }}</td>
+               <td>{{ d.CreatedAt|date("m/d/Y")  }}</td>
+                {% if d.filename  %}
+             <td> <a href="{{ vich_uploader_asset(d, 'imageFile') | imagine_filter('thumb') }}"  target="_blank"><img src="img/fileicon.png"></a> 
+                {% endif %}
+                <!-- | imagine_filter('thumb') -->
+             </td>
+                <td>
+                    
+                    <a href="{{ path('document_edite',{id: d.id})  }} " class="btn btn-info">Modifier</a>
+                    <form method="post" action="{{ path('document_delete',{id: d.id})}}" 
+                    style="display:inline-block"
+                    onsubmit="return confirm('Etes vous vraiment sur ?')">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ d.id)}}">
+                    <button class="btn btn-danger">Supprimer</button>
+                    </form>
+                    
+                </td>
+                
+                
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   </div>
+{% endblock %}

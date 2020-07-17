@@ -5,9 +5,6 @@ namespace App\Controller;
 use App\Entity\Departement;
 use App\Form\DepartementType;
 use App\Repository\DepartementRepository;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,9 +49,11 @@ class DepartementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $departement->setCreatedAt(new \DateTime());
             $em=$this->getDoctrine()->getManager();
            
             $em->flush();
+             $this->addFlash('success','Bien modifiè avec succès ');
 
             return $this->redirectToRoute('departement_index');
         }
@@ -78,6 +77,7 @@ class DepartementController extends AbstractController
             $em=$this->getDoctrine()->getManager();
             $em->persist($departement);
             $em->flush();
+            $this->addFlash('success','Bien ajoutè avec succès ');
              return $this->redirectToRoute('departement_index');
           
          }
@@ -87,4 +87,22 @@ class DepartementController extends AbstractController
         ]);
 
     }
+
+      /**
+     *
+     * @Route("departement/{id}", name="departement_delete", methods="DELETE")
+     */
+    public function Delete(Departement $departement,Request $request)
+    {
+        if($this->isCsrfTokenValid('delete'.$departement->getId(), $request->get('_token')))
+        {
+            $em=$this->getDoctrine()->getManager();
+
+            $em->remove($departement);
+            $em->flush();
+            $this->addFlash('success','Bien supprimè avec succès ');
+        }
+        return $this->redirectToRoute('departement_index');
+
+    } 
 }

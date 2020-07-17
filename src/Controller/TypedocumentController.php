@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TypedocumentController extends AbstractController
 {
   /**
-   * * @var DepartementRepository
+   *  @var TypeDocumentRepository
    */
     private $repository;
 
@@ -47,6 +47,7 @@ class TypedocumentController extends AbstractController
             $em=$this->getDoctrine()->getManager();
             $em->persist($typedocument);
             $em->flush();
+            $this->addFlash('success','Bien ajoutè avec succès ');
              return $this->redirectToRoute('Tdocument_index');
           
          }
@@ -56,4 +57,45 @@ class TypedocumentController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("Tdocument/edit/{id}" , name="td_edite")
+     */
+
+     public function edit(TypeDocument $typedocument,Request $request)
+     {
+        $form =$this->createForm(TypedocumentType::class,$typedocument);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em=$this->getDoctrine()->getManager();
+           
+            $em->flush();
+            $this->addFlash('success','Bien modifiè avec succès ');
+            return $this->redirectToRoute('Tdocument_index');
+        }
+
+        return $this->render('typedocument/edit.html.twig', [
+            'typedocument'=> $typedocument,
+            'form' => $form->createView(),
+        ]);
+     }
+
+      /**
+     *
+     * @Route("Tdocument/{id}", name="td_delete", methods="DELETE")
+     */
+    public function Delete(TypeDocument $typedocument,Request $request)
+    {
+        if($this->isCsrfTokenValid('delete'.$typedocument->getId(), $request->get('_token')))
+        {
+            $em=$this->getDoctrine()->getManager();
+
+            $em->remove($typedocument);
+            $em->flush();
+            $this->addFlash('success','Bien supprimè avec succès ');
+        }
+        return $this->redirectToRoute('Tdocument_index');
+
+    } 
 }

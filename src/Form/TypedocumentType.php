@@ -18,7 +18,7 @@ class TypedocumentType extends AbstractType
             //->add('service',EntityType::class)
             ->add('service',EntityType::class, array(
                 'class' => Departement::class,
-                'choice_label' => 'typeDocuments'))
+                'choice_label' => 'description'))
         ;
     }
 

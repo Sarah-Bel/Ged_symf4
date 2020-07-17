@@ -6,10 +6,13 @@ use App\Repository\DepartementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="Departement")
  * @ORM\Entity(repositoryClass="App\Repository\DepartementRepository")
+ * @UniqueEntity("description")
  */
 class Departement
 {
@@ -22,6 +25,8 @@ class Departement
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous ne pouvez pas le laisser vide")
+     *
      */
     private $description;
 
@@ -30,9 +35,22 @@ class Departement
      */
     private $typeDocuments;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $UpdatedAt;
+
     public function __construct()
     {
         $this->typeDocuments = new ArrayCollection();
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+        
     }
 
  
@@ -86,12 +104,34 @@ class Departement
         return $this;
     }
 
+
     public function __toString()
     {
         return $this->description;
-        return $this->service;
     }
 
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
 
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->UpdatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $UpdatedAt): self
+    {
+        $this->UpdatedAt = $UpdatedAt;
+
+        return $this;
+    }
   
 }

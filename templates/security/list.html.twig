@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+  
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success" >
+    {{ message }}
+     </div>
+    {% endfor %}
+    
+<div >
+    <table class="table table-striped">
+        <thead >
+            <tr>
+            <th><a href="{{ path('login_add') }}" class="btn btn-success">Importe une nouveau utilisateur</a></th>
+            </tr>
+
+            <tr>
+                
+                <th>Username</th>
+                <th>Date Création </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for u in user %}
+            <tr>
+                
+                <td>{{ u.username }}</td>
+                <td>{{ u.CreatedAt|date("m/d/Y")  }}</td>
+               
+               <td>
+                        {# On boucle sur les rôles #}
+                        {% for role in u.roles %}
+                            {% if role == "ROLE_USER" %}
+                                Utilisateur
+                            {% elseif role == "ROLE_ADMIN" %}
+                                Administrateur
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+             </tr>
+
+                <td>
+                    
+                    <a href="{{ path('Modifuser' , {id: u.id}) }} " class="btn btn-info">Modifier</a>
+                   <form method="post" action="{{ path('deleteuser',{id: u.id})}}" 
+                    style="display:inline-block"
+                    onsubmit="return confirm('Etes vous vraiment sur ?')">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ u.id)}}">
+                    <button class="btn btn-danger">Supprimer</button>
+                    </form>
+                    
+                </td>
+                
+                
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   </div>
+{% endblock %}

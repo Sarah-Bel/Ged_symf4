@@ -4,10 +4,14 @@ namespace App\Entity;
 
 use App\Repository\TypeDocumentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Table(name="TypeDocument")
  * @ORM\Entity(repositoryClass="App\Repository\TypeDocumentRepository")
+ * @UniqueEntity("description")
  */
 class TypeDocument
 {
@@ -20,13 +24,33 @@ class TypeDocument
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=Departement::class, inversedBy="typeDocuments")
+     *@Assert\NotBlank
      */
     private $service;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $CreatedAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $UpdatedAt;
+
+    public function __construct()
+    {
+     
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+        
+    }
 
     public function getId(): ?int
     {
@@ -60,7 +84,30 @@ class TypeDocument
     public function __toString()
     {
         return $this->description;
-        return $this->service;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->CreatedAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $CreatedAt): self
+    {
+        $this->CreatedAt = $CreatedAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->UpdatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $UpdatedAt): self
+    {
+        $this->UpdatedAt = $UpdatedAt;
+
+        return $this;
     }
 
  

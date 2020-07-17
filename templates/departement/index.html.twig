@@ -3,14 +3,25 @@
 {% block title %}Departement index{% endblock %}
 
 {% block body %}
-    <h1>Departement index</h1>
-
-    <table class="table">
+ <div>
+  
+    
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success" >
+    {{ message }}
+    </div>
+    {% endfor %}
+    
+    <table class="table table-striped">
         <thead>
+            <tr>
+            <th> <a href="{{ path('add') }}" class="btn btn-success" >Ajouter un nouveau departement</a></th>
+            </tr>
             <tr>
                 <th>Id</th>
                 <th>Description</th>
-                <th>actions</th>
+                <th>Date Création</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -18,17 +29,27 @@
             <tr>
                 <td>{{ d.id }}</td>
                 <td>{{ d.description }}</td>
+                <td>{{ d.CreatedAt|date("m/d/Y")  }}</td>
+
                
                 <td>
-                    <a href="{{ path('departement_edit', {id: d.id}) }}">Modifier</a>
+                    <a href="{{ path('departement_edit', {id: d.id}) }}" class="btn btn-info" >Modifier</a>
+
+                    <form method="post" action="{{ path('departement_delete',{id: d.id})}}" 
+                    style="display:inline-block"
+                    onsubmit="return confirm('Etes vous vraiment sur ?')">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ d.id)}}">
+                    <button class="btn btn-danger">Supprimer</button>
+                    </form>
                 </td>
-                <td>
-                    <a href="{{ path('add') }}">Ajouter</a>
-                </td>
+               
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-   
+ 
+       
+                
+   </div>
 {% endblock %}
