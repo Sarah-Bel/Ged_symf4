@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Departement;
 use App\Entity\TypeDocument;
 use App\Form\TypedocumentType;
 use App\Repository\TypeDocumentRepository;
@@ -85,8 +86,9 @@ class TypedocumentController extends AbstractController
      *
      * @Route("Tdocument/{id}", name="td_delete", methods="DELETE")
      */
-    public function Delete(TypeDocument $typedocument,Request $request)
+    public function Delete(TypeDocument $typedocument,Request $request,Departement $dep)
     {
+      
         if($this->isCsrfTokenValid('delete'.$typedocument->getId(), $request->get('_token')))
         {
             $em=$this->getDoctrine()->getManager();

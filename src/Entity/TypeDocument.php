@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TypeDocumentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -34,6 +36,11 @@ class TypeDocument
      */
     private $service;
 
+   /**
+    * @ORM\OneToMany(targetEntity=Document::class, mappedBy="nomdocument")
+    */
+    private $documents;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -49,6 +56,7 @@ class TypeDocument
      
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+        $this->documents = new ArrayCollection();
         
     }
 
@@ -106,6 +114,37 @@ class TypeDocument
     public function setUpdatedAt(\DateTimeInterface $UpdatedAt): self
     {
         $this->UpdatedAt = $UpdatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setNomdocument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
+            // set the owning side to null (unless already changed)
+            if ($document->getNomdocument() === $this) {
+                $document->setNomdocument(null);
+            }
+        }
 
         return $this;
     }

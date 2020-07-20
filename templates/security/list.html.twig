@@ -1,25 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block title %} {% endblock %}
+	
+   {% block stylesheets %}
+   <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/dataTables.bootstrap.min.css">
+   
+   {% endblock %}
 
 {% block body %}
-  
+ {% if is_granted('ROLE_ADMIN') %}  
+
     {% for message in app.flashes('success') %}
     <div class="alert alert-success" >
     {{ message }}
      </div>
     {% endfor %}
+        
     
-<div >
-    <table class="table table-striped">
+<div class="container mt-4">
+    <table  class="table" id="tables">
         <thead >
-            <tr>
-            <th><a href="{{ path('login_add') }}" class="btn btn-success">Importe une nouveau utilisateur</a></th>
-            </tr>
-
-            <tr>
                 
-                <th>Username</th>
+                <th>Nom d'Utilisateur</th>
                 <th>Date Création </th>
                 <th>Actions</th>
             </tr>
@@ -61,6 +64,13 @@
         {% endfor %}
         </tbody>
     </table>
+{% block javascripts %}
+    
+{% endblock %}
+
+            <a href="{{ path('login_add') }}" class="btn btn-success">Importe une nouveau utilisateur</a>
 
    </div>
+{% endif %}
+
 {% endblock %}

@@ -25,6 +25,7 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * 
      * @Route("/login" , name="login")
      */
 
@@ -83,6 +84,8 @@ class SecurityController extends AbstractController
         return $this->render('security/list.html.twig', array(
             'user'=>$user
              ));
+
+        
 
      }
 

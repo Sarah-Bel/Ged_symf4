@@ -36,30 +36,11 @@ class Document
      */
     private $nomdocument;
 
-    
-    /**
-     * @var File
-     * @Vich\UploadableField(mapping="product_image", fileNameProperty="filename")
-     * @Assert\NotBlank
-     * @Assert\File(
-     *  mimeTypes = {"application/pdf", "application/x-pdf"}
-     * )
-     * 
-     */
-    private $imageFile;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string" , length=255)
-     * 
-     * 
-     */
-    private $filename;
-
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
      */
+    
     private $information;
 
     /**
@@ -67,6 +48,12 @@ class Document
      * @Assert\NotBlank
      */
     private $commentaire;
+
+     /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank(groups={"new"} ,message="Merci de mettre une image !")
+     */
+    private $ImageFile;
 
     /**
      * @ORM\Column(type="datetime")
@@ -140,31 +127,7 @@ class Document
         return $this;
     }
 
-  public function getFilename(): ?string
-    {
-        return $this->filename;
-    }
-
-    public function setFilename(?string $filename): Document
-    {
-        $this->filename = $filename;
-        return $this;
-    }
-
-    public function setImageFile(?File $imageFile): Document
-    {
-        $this->imageFile = $imageFile;
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updatedAt = new \DateTime('now');
-        }
-        return $this;
-       
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
+ 
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -186,6 +149,18 @@ class Document
     public function setUpdatedAt(\DateTimeInterface $UpdatedAt): self
     {
         $this->UpdatedAt = $UpdatedAt;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?string
+    {
+        return $this->ImageFile;
+    }
+
+    public function setImageFile(string $ImageFile): self
+    {
+        $this->ImageFile = $ImageFile;
 
         return $this;
     }

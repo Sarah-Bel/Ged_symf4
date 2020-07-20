@@ -6,29 +6,30 @@
  <div class="col-xs-10">
    
  {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
- {{ form_row(form) }}
+ {{ form_rest(form) }}
 
 <table>
+
 <form >
     <div >
     
-        <div class="col">
+        <div >
         
-         {{ form_widget(form.numdocument) }}
+         {{ form_row(form.numdocument) }}
 
         </div>
 
         <div class="col">
-            {{ form_widget(form.information) }}
+            {{ form_row(form.information) }}
         </div>
          <div class="col">
-            {{ form_widget(form.commentaire) }}
+            {{ form_row(form.commentaire) }}
         </div>
          <div class="col">
-            {{ form_widget(form.nomdocument) }}
+            {{ form_row(form.nomdocument) }}
         </div>
         <div class="col">
-            {{ form_widget(form.imageFile) }}
+            {{ form_row(form.ImageFile)}}
         </div>
         
     </div>

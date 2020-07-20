@@ -2,19 +2,24 @@
 
 {% block title %} {% endblock %}
 
+ {% block stylesheets %}
+   <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/dataTables.bootstrap.min.css">
+   
+   {% endblock %}
+
 {% block body %}
- <div >
+ 
     {% for message in app.flashes('success') %}
     <div class="alert alert-success" >
     {{ message }}
     </div>
     {% endfor %}
 
-    <table class="table table-striped">
+    <div class="container mt-4" >
+    <table  class="table table-hover" id="tables">
         <thead>
-        <tr>
-         <th> <a href="{{ path('td_add') }}" class="btn btn-success" >Ajouter un Type de document</a></th>
-        </tr>
+        
             <tr>
                 
                 <th>Description</th>
@@ -49,7 +54,7 @@
         {% endfor %}
         </tbody>
     </table>
-    
+    <a href="{{ path('td_add') }}" class="btn btn-success" >Ajouter un Type de document</a>
 
    </div>
 {% endblock %}

@@ -3,50 +3,52 @@
 {% block title %} {% endblock %}
 	
    {% block stylesheets %}
+   <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/dataTables.bootstrap.min.css">
    
    {% endblock %}
 
 {% block body %}
+
     {% for message in app.flashes('success') %}
     <div class="alert alert-success" >
     {{ message }}
      </div>
     {% endfor %}
+        
     
-<div >
-    <table class="table table-striped">
+<div class="container mt-4">
+    <table  class="table table-hover" id="tables">
         <thead >
-            <tr>
-            <th >
-            <a href="{{ path('document_add') }}" class="btn btn-success">Importe un nouveau document</a>
-             </th>
-        </tr>
-            <tr>
+        
+            <tr >
+            
+                <th ></th>
+                <th >N° document</th>
+                <th >Information</th>
+                <th >Commentaire</th>
+                <th >Document</th>
+                <th >Date Création</th>
+                <th >Actions</th>
                 
-                <th>N° document</th>
-                <th>Information</th>
-                <th>Commentaire</th>
-                <th>Document</th>
-                <th>Date Création</th>
-                <th> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for d in document %}
-    
-            <tr>
-                
+       
+
+            <tr class="table-Default">
+             
+              
+             <td> <a href="{{ asset('images/documents/' ~ d.imageFile) }}"  target="_blank"><img src="img/fileicon.png"></a> 
+            
+             </td>
                 <td>{{ d.numdocument }}</td>
                 <td>{{ d.information }}</td>
                <td>{{ d.commentaire }}</td>
                <td>{{ d.nomdocument }}</td>
                <td>{{ d.CreatedAt|date("m/d/Y")  }}</td>
-                {% if d.filename  %}
-             <td> <a href="{{ vich_uploader_asset(d, 'imageFile') | imagine_filter('thumb') }}"  target="_blank"><img src="img/fileicon.png"></a> 
-                {% endif %}
-                <!-- | imagine_filter('thumb') -->
-             </td>
+                
                 <td>
                     
                     <a href="{{ path('document_edite',{id: d.id})  }} " class="btn btn-info">Modifier</a>
@@ -65,6 +67,13 @@
         {% endfor %}
         </tbody>
     </table>
+{% block javascripts %}
+    
+{% endblock %}
+
+            
+            <a href="{{ path('document_add') }}" class="btn btn-success">Importe un nouveau document</a>
+            
 
    </div>
 {% endblock %}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -39,10 +41,12 @@ class User implements UserInterface
      */
     private $CreatedAt;
 
+    
     public function __construct()
     {
      
         $this->setCreatedAt(new \DateTime());
+       
         
         
     }
@@ -109,4 +113,13 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
 }
