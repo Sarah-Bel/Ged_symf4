@@ -51,6 +51,16 @@ class TypeDocument
      */
     private $UpdatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="typeDocuments")
+     */
+    private $Createdby;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="typeDocEditby")
+     */
+    private $Editby;
+
     public function __construct()
     {
      
@@ -145,6 +155,30 @@ class TypeDocument
                 $document->setNomdocument(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedby(): ?User
+    {
+        return $this->Createdby;
+    }
+
+    public function setCreatedby(?User $Createdby): self
+    {
+        $this->Createdby = $Createdby;
+
+        return $this;
+    }
+
+    public function getEditby(): ?USer
+    {
+        return $this->Editby;
+    }
+
+    public function setEditby(?USer $Editby): self
+    {
+        $this->Editby = $Editby;
 
         return $this;
     }

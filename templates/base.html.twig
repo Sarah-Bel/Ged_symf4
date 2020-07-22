@@ -16,12 +16,13 @@
   {% if app.user %}
 <nav class="navbar navbar-inverse ">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">GED</a>
+    <div>
+      <a class="navbar-brand" href="{{ path('document_index') }}"><img src="/img/icons8_home_24px.png"></a>
     </div>
     <ul class="nav navbar-nav">
       
       {% if is_granted('ROLE_ADMIN') %}  
+      
       <li><a href="{{ path('document_index') }}">Gestion des documents</a></li>
       
       <li><a  href="{{ path('Tdocument_index') }}">Les types des documents </a></li>

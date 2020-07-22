@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\User;
+
 
 /**
  * @ORM\Table(name="Departement")
@@ -44,6 +46,16 @@ class Departement
      * @ORM\Column(type="datetime")
      */
     private $UpdatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="depcreatedby")
+     */
+    private $Createdby;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="departements")
+     */
+    private $Editby;
 
     public function __construct()
     {
@@ -130,6 +142,30 @@ class Departement
     public function setUpdatedAt(\DateTimeInterface $UpdatedAt): self
     {
         $this->UpdatedAt = $UpdatedAt;
+
+        return $this;
+    }
+
+    public function getCreatedby(): ?User
+    {
+        return $this->Createdby;
+    }
+
+    public function setCreatedby(?User $Createdby): self
+    {
+        $this->Createdby = $Createdby;
+
+        return $this;
+    }
+
+    public function getEditby(): ?User
+    {
+        return $this->Editby;
+    }
+
+    public function setEditby(?User $Editby): self
+    {
+        $this->Editby = $Editby;
 
         return $this;
     }

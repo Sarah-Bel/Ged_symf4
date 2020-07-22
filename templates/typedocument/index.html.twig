@@ -3,7 +3,7 @@
 {% block title %} {% endblock %}
 
  {% block stylesheets %}
-   <link rel="stylesheet" href="/css/bootstrap.min.css">
+     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/dataTables.bootstrap.min.css">
    
    {% endblock %}
@@ -16,6 +16,13 @@
     </div>
     {% endfor %}
 
+    {% for message in app.flashes('supp') %}
+    <div class="alert alert-danger" >
+    {{ message }}
+    </div>
+    {% endfor %}
+
+
     <div class="container mt-4" >
     <table  class="table table-hover" id="tables">
         <thead>
@@ -23,8 +30,12 @@
             <tr>
                 
                 <th>Description</th>
-                <th>service</th>
+                <th>Département</th>
+                <th>Ajouter par</th>
                 <th>Date création</th>
+                <th>Modifier par</th>
+                <th>Date Modification</th>
+                
                 <th>Actions</th>
             </tr>
         </thead>
@@ -34,18 +45,22 @@
                 
                 <td>{{ td.description }}</td>
                 <td>{{ td.service }}</td>
-                <td>{{ td.CreatedAt|date("m/d/Y")  }}</td>
+                <td>{{ td.createdby }}</td>
+                <td>{{ td.CreatedAt|date("d/m/Y")  }}</td>
+                <td>{{ td.editby }}</td>
+                <td>{{ td.UpdatedAt|date("d/m/Y")  }}</td>
+                
                
                 <td>
                   
-                    <a href="{{ path('td_edite',{id: td.id}) }}" class="btn btn-info" >Modifier</a>
+                 <button>   <a href="{{ path('td_edite',{id: td.id}) }}" ><img src="img/edit.png"></a></button>
 
                     <form method="post" action="{{ path('td_delete',{id: td.id})}}" 
                     style="display:inline-block"
                     onsubmit="return confirm('Etes vous vraiment sur ?')">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ td.id)}}">
-                    <button class="btn btn-danger">Supprimer</button>
+                    <button><img src="img/remove.png"></button>
                     </form>
 
                 </td>

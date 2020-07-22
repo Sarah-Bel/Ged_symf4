@@ -84,9 +84,6 @@ class SecurityController extends AbstractController
         return $this->render('security/list.html.twig', array(
             'user'=>$user
              ));
-
-        
-
      }
 
 
@@ -99,7 +96,9 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
             $this->getDoctrine()->getManager()->flush();
+            
             $this->addFlash('success', 'Bien Modifier');
             return $this->redirectToRoute('listeUtilisateur');
         }
@@ -118,6 +117,22 @@ class SecurityController extends AbstractController
     {
         if($this->isCsrfTokenValid('delete'.$user->getId(), $request->get('_token')))
         {
+            $CEby=$user->getDocuments();
+            $CEby=$user->getEditDoc();
+            $CEby=$user->getTypeDocuments();
+            $CEby=$user->getTypeDocEditby();
+            $CEby=$user->getDepartements();
+            $CEby=$user->getDepcreatedby();
+            foreach($CEby as $key => $value)
+            {
+                if($value!==null)
+                {
+                $this->addFlash('supp','Vous ne pouvez pas supprimer cet utilisateur');
+                return $this->redirectToRoute('listeUtilisateur');
+                }
+                
+            }
+
             $em=$this->getDoctrine()->getManager();
 
             $em->remove($user);

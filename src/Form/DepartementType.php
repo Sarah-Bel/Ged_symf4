@@ -14,7 +14,7 @@ class DepartementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description',TextType::class)
+            ->add('description', TextType::class, array('label' => 'Description'),)
             //->add('createdAt')
 
            

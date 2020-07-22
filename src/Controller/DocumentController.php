@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Document;
+use App\Entity\User;
 use App\Form\DocumentType;
 use App\Repository\DocumentRepository;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
@@ -46,11 +47,11 @@ class DocumentController extends AbstractController
         $form = $this->createForm(DocumentType::class, $Document);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+       
+        $user = $this->getUser();
+         
             /** @var UploadedFile $ImageFile */
-            $ImageFile = $form->get('ImageFile')->getData();
-
-            
+            $ImageFile = $form->get('ImageFile')->getData();            
             if ($ImageFile) {
               
                 $newFilename = md5(uniqid()) . '.' . $ImageFile->guessExtension();  
@@ -61,11 +62,13 @@ class DocumentController extends AbstractController
                     );
                 } catch (FileException $e) { }
 
-
                 $Document->setImageFile($newFilename);
             }
 
             $em = $this->getDoctrine()->getManager();
+            
+            $Document->setCreatedby($user);
+             
             $em->persist($Document);
             $em->flush();
             $this->addFlash('success', 'Bien ajoutè avec succès ');
@@ -73,7 +76,10 @@ class DocumentController extends AbstractController
         }
         return $this->render('document/add.html.twig', [
             'Document' => $Document,
+                
             'form' => $form->createView(),
+           
+            
         ]);
     }
 
@@ -88,9 +94,10 @@ class DocumentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
              /** @var UploadedFile $ImageFile */
              $ImageFile = $form->get('ImageFile')->getData();
-
+             $document->setUpdatedAt(new \DateTime());
             
              if ($ImageFile) {
                
@@ -110,7 +117,11 @@ class DocumentController extends AbstractController
 
 
             $em = $this->getDoctrine()->getManager();
-
+             
+            $document->setEditby($user);
+            
+            
+            
             $em->flush();
             $this->addFlash('success', 'Bien modifié avec succès ');
             return $this->redirectToRoute('document_index');

@@ -45,7 +45,9 @@ class TypedocumentController extends AbstractController
         $form ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user=$this->getUser();
             $em=$this->getDoctrine()->getManager();
+            $typedocument->setCreatedby($user);
             $em->persist($typedocument);
             $em->flush();
             $this->addFlash('success','Bien ajoutè avec succès ');
@@ -69,7 +71,10 @@ class TypedocumentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user=$this->getUser();
             $em=$this->getDoctrine()->getManager();
+            $typedocument->setUpdatedAt(new \DateTime());
+            $typedocument->setEditby($user);
            
             $em->flush();
             $this->addFlash('success','Bien modifiè avec succès ');
@@ -82,15 +87,28 @@ class TypedocumentController extends AbstractController
         ]);
      }
 
-      /**
+    /**
      *
      * @Route("Tdocument/{id}", name="td_delete", methods="DELETE")
      */
-    public function Delete(TypeDocument $typedocument,Request $request,Departement $dep)
+    public function Delete(TypeDocument $typedocument,Request $request)
     {
       
         if($this->isCsrfTokenValid('delete'.$typedocument->getId(), $request->get('_token')))
         {
+
+            $doc=$typedocument->getDocuments();
+        
+            foreach($doc as $key => $value)
+            {
+                if($value!==null)
+                {
+                $this->addFlash('supp','Vous ne pouvez pas le supprimer ce type de document est déja utilisé');
+                return $this->redirectToRoute('Tdocument_index');
+                }
+                
+            }
+
             $em=$this->getDoctrine()->getManager();
 
             $em->remove($typedocument);

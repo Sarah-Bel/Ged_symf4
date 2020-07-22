@@ -7,6 +7,7 @@ use App\Entity\TypeDocument;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -16,8 +17,9 @@ class DocumentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('numdocument')
+            ->add('numdocument', TextType::class, array('label' => 'N° Document'),)
             ->add('nomdocument',EntityType::class, array(
+                'label' => 'Nom Document',
                 'class' => TypeDocument::class,
                 'choice_label' => 'description'))
             //->add('imageFile',FileType::class,array('label' => 'image png ou jpeg', 'data_class'=> null))
@@ -36,8 +38,8 @@ class DocumentType extends AbstractType
                     ])
                 ],
             ])
-            ->add('information')
-            ->add('commentaire')
+            ->add('information', TextType::class, array('label' => 'Information'),)
+            ->add('commentaire', TextType::class, array('label' => 'Commentaire'),)
             
         ;
     }

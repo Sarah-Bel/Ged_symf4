@@ -9,10 +9,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\User;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=DocumentRepository::class)
- * @Vich\Uploadable
  * @UniqueEntity("numdocument")
  */
 class Document
@@ -65,11 +67,24 @@ class Document
      */
     private $UpdatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="documents")
+     */
+    private $Createdby;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="EditDoc")
+     */
+    private $Editby;
+
+  
+
     public function __construct()
     {
      
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+     
         
     }
     
@@ -137,7 +152,7 @@ class Document
     public function setCreatedAt(\DateTimeInterface $CreatedAt): self
     {
         $this->CreatedAt = $CreatedAt;
-
+        
         return $this;
     }
 
@@ -164,6 +179,37 @@ class Document
 
         return $this;
     }
+
+    public function getCreatedby(): ?user
+    {
+        return $this->Createdby;
+    }
+
+    public function setCreatedby(?user $Createdby): self
+    {
+        $this->Createdby = $Createdby;
+
+        return $this;
+    }
+
+    public function getEditby(): ?User
+    {
+        return $this->Editby;
+    }
+
+    public function setEditby(?User $Editby): self
+    {
+        $this->Editby = $Editby;
+
+        return $this;
+    }
+
+   
+   
+
+    
+
+
 
    
 
