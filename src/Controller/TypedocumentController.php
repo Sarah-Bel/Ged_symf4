@@ -89,7 +89,7 @@ class TypedocumentController extends AbstractController
 
     /**
      *
-     * @Route("Tdocument/{id}", name="td_delete", methods="DELETE")
+     * @Route("Tdocument/{id}", name="td_delete")
      */
     public function Delete(TypeDocument $typedocument,Request $request)
     {

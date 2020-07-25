@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -23,16 +24,19 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous ne pouvez pas le laisser vide")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous ne pouvez pas le laisser vide")
      */
     private $password;
 
      /**
      * @ORM\Column(type="json")
+     * @Assert\NotBlank(message="Vous ne pouvez pas le laisser vide")
      */
     private $roles = [];
 
@@ -118,12 +122,12 @@ class User implements UserInterface
     }
 
     
-    public function getRoles(): array
+    public function getRoles()
     {
         $roles = $this->roles;
     // garantit que chaque utilisateur possède le rôle ROLE_USER
     // équvalent à array_push() qui ajoute un élément au tabeau
-          $roles[] = 'ROLE_USER'; 
+          $roles[] = ''; 
     //array_unique élémine des doublons      
         return array_unique($roles);
     }

@@ -6,7 +6,7 @@
         
         
       <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<link rel="stylesheet" href="/bootstrap-3.4.1/css/bootstrap.min.css" >
 
 
         {% block stylesheets %}{% endblock %}
@@ -34,15 +34,22 @@
        {% endif %}
     </ul>
        
-    <ul class="nav navbar-nav navbar-right">
      
+
+    <ul class="nav navbar-nav navbar-right">
+           <li class="active"><a ><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a></li>
+
       <li><a href="{{ path('logout') }}"><span class="glyphicon glyphicon-log-in"></span> Se déconnecter </a></li>
+   
     </ul>
 
-
+ 
     
   </div>
 </nav>
+
+
+
   {% endif %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
@@ -50,8 +57,10 @@
            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
      <script src="/js/jquery.dataTables.min.js"></script>
       <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
-    
 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="/bootstrap-3.4.1/js/bootstrap.min.js" ></script>
 
      <script>
   $(document).ready(function() {
@@ -62,17 +71,3 @@
     </body>
     
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

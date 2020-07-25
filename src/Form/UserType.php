@@ -21,13 +21,15 @@ class UserType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Mode de passe : '),
                 'second_options' => array('label' => 'Confirmez le mot de passe : '),
+                'invalid_message' => 'Le mot de passe et le mot de passe de confirmation ne correspondent pas ',
             
             ))
             ->add('roles', ChoiceType::class, [
-                'choices' => [
+                'choices' =>  [
                     'Utilisateur' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN'
                 ],
+                
                 'expanded' => true,
                 'multiple' => true,
                 'label' => 'Rôles' 

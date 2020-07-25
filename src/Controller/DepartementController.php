@@ -94,7 +94,7 @@ class DepartementController extends AbstractController
 
       /**
      *
-     * @Route("departement/{id}", name="departement_delete", methods="DELETE")
+     * @Route("departement/{id}", name="departement_delete")
      */
     public function Delete(Departement $departement,Request $request)
     {

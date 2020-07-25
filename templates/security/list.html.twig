@@ -11,16 +11,20 @@
 {% block body %}
  {% if is_granted('ROLE_ADMIN') %}  
 
-    {% for message in app.flashes('success') %}
-    <div class="alert alert-success" >
-    {{ message }}
-     </div>
+{% for message in app.flashes('success') %}
+ <div class="alert alert-success alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong>  {{ message }}
+  </div>
+{% endfor %}
+
+    {% for message in app.flashes('supp') %}
+ <div class="alert alert-danger alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Danger!</strong>  {{ message }}
+  </div>
     {% endfor %}
-     {% for message in app.flashes('supp') %}
-    <div class="alert alert-danger" >
-    {{ message }}
-    </div>
-    {% endfor %}
+
         
     
 <div class="container mt-4" >
