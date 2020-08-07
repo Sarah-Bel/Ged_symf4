@@ -19,7 +19,7 @@ class DocumentController extends AbstractController
 {
 
     /**
-     *  @var TypeDocumentRepository
+     *  @var DocumentRepository
      */
     private $repository;
 
@@ -29,12 +29,20 @@ class DocumentController extends AbstractController
     }
 
     /**
-     * @Route("/", name="document_index")
+     * @Route("/doc", name="document_index")
      */
     public function index(): Response
     {
+        
         $document = $this->repository->findAll();
-        return $this->render('document/index.html.twig', compact('document'));
+       
+        return $this->render('document/index.html.twig', [
+            'document' => $document,
+           
+        ]);
+        
+
+      
     }
 
     /**
@@ -148,4 +156,38 @@ class DocumentController extends AbstractController
         }
         return $this->redirectToRoute('document_index');
     }
+
+  /**
+     * @Route("/", name="totalDoc")
+     */
+    public function total() :Response
+    {   if ($this->isGranted('ROLE_ADMIN')){
+        $total = $this->repository->findTotatldoc();    
+        $totalparjrs = $this->repository->findDocJrs(new \DateTime);
+        $totalEtude = $this->repository->findDocTypeEtude();
+        $totalRC = $this->repository->findDocTypeRC();
+        $totalPV = $this->repository->findDocTypePV();
+        $totalFacture = $this->repository->findDocTypeFacture();
+        $totalparmois = $this->repository->findDocparMois();
+        $totalparannees = $this->repository->findDocparAnnees();
+        
+        return $this->render('document/stati.html.twig',[
+        'total'=>$total,
+        'totalparjrs' =>$totalparjrs,
+        'totalEtude' =>$totalEtude,
+        'totalRC' =>$totalRC,
+        'totalPV' =>$totalPV,
+        'totalFacture' =>$totalFacture,
+        'totalparmois'=>$totalparmois,
+        'totalparannees' =>$totalparannees,
+         ] );
+        }
+
+        else
+        {
+            return $this->redirectToRoute('document_index');
+        }
+    }
+
+
 }

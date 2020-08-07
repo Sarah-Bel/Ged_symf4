@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {% endblock %}
+	
+   {% block stylesheets %}
+
+   
+   {% endblock %}
+
+{% block body %}
+<ol class="breadcrumb purple lighten-4">
+    <img src="\img\doc.png"> <li class="breadcrumb-item active">Statistique des documents ajoutés</li>
+ </ol>
+
+        
+	   <div class="row">
+
+                <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body media-body text-right">
+                                    {% for t in total %}
+                                     <div class="h2 mb-0 font-weight-bold text-gray-800">
+                                 {{ t.total }}
+                                    </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <div class="small text-white"><img src="\img\total.png"></div>
+                                        <i>Total</i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                  <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body media-body text-right">
+                                    {% for tjrs in totalparjrs %}
+                                     <div class="h2 mb-0 font-weight-bold text-gray-800">
+                                 {{ tjrs.totalparjrs }}
+                                    </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <div class="small text-white"><img src="\img\day.png"></div>
+                                        <i>Par Jour</i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                    <div class="col-xl-3 col-md-6">
+                                <div class="card bg-secondary text-white mb-4">
+                                    <div class="card-body media-body text-right">
+                                    {% for tmpois in totalparmois %}
+                                     <div class="h2 mb-0 font-weight-bold text-gray-800">
+                                 {{ tmpois.totalparmois }}
+                                    </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <div class="small text-white"><img src="\img\month.png"></div>
+                                        <i>Par Mois</i>
+                                    </div>
+                                </div>
+                            </div>
+
+                    <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4">
+                                    <div class="card-body media-body text-right">
+                                    {% for tyear in totalparannees %}
+                                     <div class="h2 mb-0 font-weight-bold text-gray-800">
+                                 {{ tyear.totalparannees }}
+                                    </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <div class="small text-white"><img src="\img\year.png"></div>
+                                       <i> Par Année </i>
+                                    </div>
+                                </div>
+                            </div>
+  </div>
+         
+
+     <div id="piechart"></div>
+        
+      
+
+
+{% block javascripts %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+   <script>
+    google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+     
+
+ 
+  ['Task', 'Hours per Day'],
+  {% for E in totalEtude %} ['Etude', {{ E.Etude }}]  {% endfor %},
+  {% for P in totalPV %} ['PV',  {{ P.PV }}] {% endfor %},
+  {% for R in totalRC %} ['RC',  {{ R.RC }}] {% endfor %},
+  {% for F in totalFacture %}  ['Facture',  {{ F.Facture }}] {% endfor %},
+  
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Documents Par Type', 'width':800, 'height':600};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
+   </script>
+{% endblock %}
+            
+
+{% endblock %}

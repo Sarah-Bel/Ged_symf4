@@ -4,70 +4,122 @@
         <meta charset="UTF-8">
         <title>{% block title %}Gestion Eletronique Des Documents{% endblock %}</title>
         
-        
-      <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="/bootstrap-3.4.1/css/bootstrap.min.css" >
+     {% block stylesheets %}{% endblock %}
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/css/responsive.bootstrap4.min.css">
 
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-    
-  {% if app.user %}
-<nav class="navbar navbar-inverse ">
-  <div class="container-fluid">
-    <div>
-      <a class="navbar-brand" href="{{ path('document_index') }}"><img src="/img/icons8_home_24px.png"></a>
-    </div>
-    <ul class="nav navbar-nav">
-      
-      {% if is_granted('ROLE_ADMIN') %}  
-      
-      <li><a href="{{ path('document_index') }}">Gestion des documents</a></li>
-      
-      <li><a  href="{{ path('Tdocument_index') }}">Les types des documents </a></li>
- 
-      
-      <li><a href="{{ path('departement_index') }}">Departements</a></li>
-      
-       <li><a href="{{ path('listeUtilisateur') }}">Gestion d'utilisateur</a></li>
-       {% endif %}
-    </ul>
        
-     
+    </head>
+ <body >
+ {% if is_granted('ROLE_ADMIN') %}  
+ {% if app.user %}
+     <div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+	  		<h1><a  class="logo">GED</a></h1>
+        <ul class="list-unstyled components mb-5">
+          <li class="active">
+            <a href="{{ path('totalDoc') }}"><span class="fa fa-home mr-3"></span> Home</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link " href="{{ path('document_index') }}"><span class="fa fa-folder-open	 mr-1"></span> Gestion des documents</a>
+          </li>
+          <li >
+            <a  href="{{ path('Tdocument_index') }}"><span class="fa fa-sticky-note mr-3"></span> Les types des documents</a>
+          </li>
+          <li>
+            <a href="{{ path('departement_index') }}"><span class="fa fa-sticky-note mr-3"></span> Departements</a>
+          </li>
+          <li>
+            <a href="{{ path('listeUtilisateur') }}"><span class="fa fa-group mr-1"></span> Gestion d'utilisateur</a>
+          </li>
+          
+        </ul>
+         <ul class="nav navbar-nav navbar-right">
+           <li class="active"><a ><span class="fa fa-user mr-1"></span> {{ app.user.username }}</a></li>
 
-    <ul class="nav navbar-nav navbar-right">
-           <li class="active"><a ><span class="glyphicon glyphicon-user"></span> {{ app.user.username }}</a></li>
-
-      <li><a href="{{ path('logout') }}"><span class="glyphicon glyphicon-log-in"></span> Se déconnecter </a></li>
+      <li><a href="{{ path('logout') }}"><span class="fa fa-sign-in mr-1"></span> Se déconnecter </a></li>
    
     </ul>
 
+    	</nav>
+
+      
+{% endif %}
+{% endif %}
+
+
+{% if is_granted('ROLE_USER') %}  
+     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <a class="navbar-brand" >GED</a>
  
-    
+
+    <ul class="navbar-nav mr-auto">
+     
+      
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Gestion Des Documents
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{{ path('document_add') }}">Ajouter</a>
+          <a class="dropdown-item" href="{{ path('document_index') }}">Liste des documets</a>
+        </div>
+      </li>
+     
+      
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="active"><a class="nav-link" ><span class="fa fa-user mr-1"></span> {{ app.user.username }}</a></li>
+
+      <li  class="nav-item" ><a class="nav-link" href="{{ path('logout') }}"><span class="fa fa-sign-in mr-1"></span> Se déconnecter </a></li>
+   
+    </ul>
   </div>
 </nav>
 
+{% endif %}
 
-
-  {% endif %}
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-      
-           <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-     <script src="/js/jquery.dataTables.min.js"></script>
-      <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script>
+       
+      </div>
+       </div>
+		
+        
+       
+        <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
 
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <script src="/datatable/jquery-3.5.1.js"></script>
+    <script src="/datatable/jquery.dataTables.min.js"></script>
+    <script src="/datatable/dataTables.bootstrap4.min.js"></script>
 
-    <script src="/bootstrap-3.4.1/js/bootstrap.min.js" ></script>
+    <script src="/datatable/dataTables.responsive.min.js"></script>
+    <script src="/datatable/responsive.bootstrap4.min.js"></script>
 
+   
      <script>
   $(document).ready(function() {
     $('#tables').DataTable({ "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json" } });
 } );
    </script>
 
+     {% block javascripts %}{% endblock %}
     </body>
-    
 </html>
+ 

@@ -90,13 +90,16 @@ class SecurityController extends AbstractController
     /**
      * @Route("user/Update/{id}",name="Modifuser")
      */
-    public function UpdateAction(Request $request, User $user)
+    public function UpdateAction(Request $request, User $user,UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
            
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+
+            $user->setPassword($hash);
             $this->getDoctrine()->getManager()->flush();
             
             $this->addFlash('success', 'Bien Modifier');

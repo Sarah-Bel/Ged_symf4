@@ -3,21 +3,22 @@
 {% block title %} {% endblock %}
 	
    {% block stylesheets %}
-   <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/dataTables.bootstrap.min.css">
+ 
    
    {% endblock %}
 
 {% block body %}
-
-    {% for message in app.flashes('success') %}
-    <div class="alert alert-success" >
-    {{ message }}
-     </div>
-    {% endfor %}
-          
+	<div class="container">
+   {% for message in app.flashes('success') %}
+ <div class="alert alert-success alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong>  {{ message }}
+  </div>
+{% endfor %}
+   
+      
 <div>
-    <table  class="table table-hover" id="tables">
+    <table class="table table-hover dt-responsive nowrap" style="width:100%" id="tables">
         <thead >
         
             <tr >
@@ -25,8 +26,7 @@
                 <th ></th>
                 <th >N° document</th>
             
-                <th >Information</th>
-                <th >Commentaire</th>
+                
              
                 <th >Nom Document</th>
                 <th >Ajouter Par</th>
@@ -35,6 +35,9 @@
                 <th >Date Modification</th>
                 
                 <th >Actions</th>
+
+                <th >Information</th>
+                <th >Commentaire</th>
                 
             </tr>
         </thead>
@@ -49,13 +52,13 @@
             
              </td>
                 <td>{{ d.numdocument }}</td>
-                <td>{{ d.information }}</td>
-               <td>{{ d.commentaire }}</td>
+               
                <td>{{ d.nomdocument }}</td>
                <td>{{ d.createdby }}</td>
                 <td>{{ d.CreatedAt|date("d/m/Y")  }}</td>
                <td>{{ d.editby }}</td>
                <td>{{ d.UpdatedAt|date("d/m/Y")  }}</td>
+               
                
               
                 
@@ -71,19 +74,23 @@
                     </form>
                     
                 </td>
-                
-                
+             <td>{{ d.information }}</td>
+               <td>{{ d.commentaire }}</td>    
+           
+
             </tr>
         {% endfor %}
         </tbody>
     </table>
 {% block javascripts %}
-    
+   
 {% endblock %}
 
             
             <a href="{{ path('document_add') }}" class="btn btn-success">Importe un nouveau document</a>
             
-
    </div>
+   </div>
+
+
 {% endblock %}
